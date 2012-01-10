@@ -85,6 +85,15 @@ public abstract class FormatUtil {
         return sb.toString();
     }
 
+    public static String joinClassNames(Class... classes) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < classes.length; ++i) {
+            Class clazz = classes[i];
+            sb.append(clazz.getName()).append(i < classes.length - 1 ? ", " : "");
+        }
+        return sb.toString();
+    }
+
     public static Date parseShortDate(String val) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {

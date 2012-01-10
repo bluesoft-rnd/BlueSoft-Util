@@ -1,33 +1,32 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<url>http://www.bluesoft.net.pl</url>
+	<groupId>pl.net.bluesoft</groupId>
+    <artifactId>util</artifactId>
+    <packaging>jar</packaging>	
+    <version>1.2-SNAPSHOT</version>
+	<parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+    </parent>
 
     <name>Utility package</name>
-    <description>
-        A bunch of useful classes.
-    </description>
+    <description>A bunch of useful classes.</description>
+	<url>https://github.com/tlipski/BlueSoft-Util</url>
+	
+	<licenses>
+		<license>
+		  <name>GNU Lesser General Public License, Version 2.1</name>
+		  <url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
+		  <distribution>repo</distribution>
+		</license>
+    </licenses>
 
-    <groupId>pl.net.bluesoft</groupId>
-    <artifactId>util</artifactId>
-    <packaging>jar</packaging>
-
-    <version>1.1-SNAPSHOT</version>
-
-    <distributionManagement>
-        <repository>
-            <id>dreihund-releases</id>
-            <name>Dreihund-Releases</name>
-            <url>http://192.168.0.76:8666/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>dreihund-snapshots</id>
-            <name>Dreihund-Snapshots</name>
-            <url>http://192.168.0.76:8666/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
+    
     <scm>
-        <developerConnection>scm:svn:https://svn.bluesoft.net.pl/webrunner/trunk/util</developerConnection>
+		<connection>scm:git:git@github.com:zmalinowski/BlueSoft-Util.git</connection>
+        <developerConnection>scm:git:git@github.com:zmalinowski/BlueSoft-Util.git</developerConnection>
+		<url>git@github.com:zmalinowski/BlueSoft-Util.git</url>
     </scm>
 
 	<dependencies>                        
@@ -52,10 +51,23 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.1</version>
-                    <configuration>
-                        <tagBase>https://svn.bluesoft.net.pl/webrunner/tags</tagBase>
-                    </configuration>
+					<configuration>
+						<pushChanges>false</pushChanges>
+					</configuration>
                 </plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

@@ -24,9 +24,9 @@
 
     
     <scm>
-		<connection>scm:git:git@github.com:zmalinowski/BlueSoft-Util.git</connection>
-        <developerConnection>scm:git:git@github.com:zmalinowski/BlueSoft-Util.git</developerConnection>
-		<url>git@github.com:zmalinowski/BlueSoft-Util.git</url>
+		<connection>scm:git:git@github.com:kdowbecki/BlueSoft-Util.git</connection>
+        <developerConnection>scm:git:git@github.com:kdowbecki/BlueSoft-Util.git</developerConnection>
+		<url>git@github.com:kdowbecki/BlueSoft-Util.git</url>
     </scm>
 
 	<dependencies>                        

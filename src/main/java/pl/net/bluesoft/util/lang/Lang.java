@@ -153,4 +153,45 @@ public final class Lang {
         }
         return true;
     }
+
+	public static <T1, T2> boolean equals(T1 t1, T2 t2) {
+		return t1 == t2 || t1 != null && t1.equals(t2);
+	}
+
+	public static <T extends Comparable<T>> int compare(T x, T y) {
+		if (x == y) {
+			return 0;
+		}
+		if (x == null) {
+			return +1;
+		}
+		if (y == null) {
+			return -1;
+		}
+		return +x.compareTo(y);
+	}
+
+	public static <T> int compare(T[] x, T[] y) {
+		int len = Math.min(x.length, y.length);
+		for (int i = 0; i < len; ++i) {
+			int cmp = compare((Comparable)x[i], (Comparable)y[i]);
+			if (cmp != 0) {
+				return cmp;
+			}
+		}
+		return x.length - y.length;
+	}
+
+	public static <T extends Comparable<T>> T keepInRange(T value, T from, T to) {
+		if (value == null) {
+			return null;
+		}
+		if (from != null && value.compareTo(from) < 0) {
+			value = from;
+		}
+		if (to != null && value.compareTo(to) > 0) {
+			value = to;
+		}
+		return value;
+	}
 }

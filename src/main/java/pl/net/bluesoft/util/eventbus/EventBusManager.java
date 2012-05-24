@@ -1,37 +1,35 @@
 package pl.net.bluesoft.util.eventbus;
 
-import pl.net.bluesoft.util.lang.MapUtil;
+/**
+ * Event observer pattern interface.
+ * @author amichalak@bluesoft.net.pl
+ */
+public interface EventBusManager {
 
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+    /**
+     * Subscribe for an event class.
+     * @param eventClass Event class
+     * @param listener Callback listener
+     */
+    void subscribe(Class eventClass, EventListener listener);
 
 /**
- * Simple observer pattern implementation. It does not handle errors, etc.
- *
- * @author tlipski@bluesoft.net.pl
+     * Unsubscribe listener.
+     * @param eventClass Event class
+     * @param listener Callback listener
  */
-public class EventBusManager {
-	protected Map<Class, Set<WeakReference<EventListener>>> listenerMap = new HashMap<Class, Set<WeakReference<EventListener>>>();
+    void unsubscribe(Class eventClass, EventListener listener);
 
-	public void subscribe(Class cls, EventListener listener) {
-		MapUtil.getSetFromMap(listenerMap, cls).add(new WeakReference(listener));
-	}
+    /**
+     * Publish event using current thread.
+     * @param event Event instance
+     */
+    void publish(Object event);
 
-	public void unsubscribe(Class cls, EventListener listener) {
-		MapUtil.getSetFromMap(listenerMap, cls).remove(new WeakReference(listener));
-	}
-
-	public void publish(Object event) {
-		Class cls = event.getClass();
-		while (cls != null) {
-			for (WeakReference<EventListener> ref : MapUtil.getSetFromMap(listenerMap, cls)) {
-				if (ref != null && ref.get() != null)
-					ref.get().onEvent(event);
-			}
-			cls = cls.getSuperclass();
-		}
-	}
-
+    /**
+     * Publish event concurrently. The method should return immediately after call.
+     * The underlying implementation should handle the publishing process in a separate thread.
+     * @param event Event instance
+     */
+    void post(Object event);
 }

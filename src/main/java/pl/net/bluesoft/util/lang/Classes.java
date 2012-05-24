@@ -5,12 +5,11 @@ import org.apache.commons.beanutils.PropertyUtils;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -121,5 +120,64 @@ public class Classes {
             throw new RuntimeException(e);
         }
         return p;
+    }
+
+	public static <T> T newInstance(Class<T> clazz) {
+		try {
+			Constructor constr = clazz.getConstructor();
+			return (T)constr.newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static void setProperty(Object object, String property, Object value) {
+		if (property == null) {
+			return;
+		}
+		try {
+			PropertyUtils.setProperty(object, property, value);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static Object getProperty(Object object, String property) {
+		if (property == null) {
+			return null;
+		}
+		try {
+			return PropertyUtils.getProperty(object, property);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static void copyProperties(Object dest, Object src) {
+        try {
+            PropertyUtils.copyProperties(dest, src);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void copyProperties(Object dest, Object src, String[] skippedProperties) {
+        Map<String, Object> oldValues = new HashMap<String, Object>();
+        if (skippedProperties != null) {
+            for (String property : skippedProperties) {
+                oldValues.put(property, getProperty(dest, property));
+            }
+        }
+
+		Classes.copyProperties(dest, src);
+
+        if (skippedProperties != null) {
+            for (String property : skippedProperties) {
+                setProperty(dest, property, oldValues.get(property));
+            }
+        }
     }
 }
